@@ -25,8 +25,10 @@ export const Auth = () => {
   }
   return (
     <div className="login-page flex justify-center items-center flex-col h-screen w-full gap-10 bg-slate-800">
-      <h2 className="text-5xl text-orange-500">Gestor de Gastos</h2>
-      <p className="text-4xl text-gray-50">Inicia sesión con google</p>
+      <h2 className="text-4xl lg:text-5xl text-orange-500">Gestor de Gastos</h2>
+      <p className="text-3xl lg:text-4xl text-gray-50">
+        Inicia sesión con google
+      </p>
       <button
         className="login-btn px-4 py-3 bg-slate-700 text-white flex justify-center items-center gap-5 rounded-md text-2xl"
         onClick={signInWithGoogle}
