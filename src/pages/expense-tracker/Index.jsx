@@ -1,29 +1,32 @@
 import { useState } from "react";
+import { signOut } from "firebase/auth";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { useGetTransactions } from "../../hooks/useGetTransactions";
 import { useGetUserInfo } from "../../hooks/useGetUserInfo";
-import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+
 import { auth } from "../../config/firebase-config";
 
 export const ExpenseTracker = () => {
   const { addTransaction } = useAddTransaction();
+  const { transactions, transactionTotals } = useGetTransactions();
+  const { name, profilePhoto } = useGetUserInfo();
+  const navigate = useNavigate();
 
   const [description, setDescription] = useState("");
-  const [transactionAmount, setTransactionAmount] = useState("");
-  const [transactionType, setTransactionType] = useState("gasto");
-  const { transactions, transactionsTotals } = useGetTransactions();
-  const { userName, userPhoto } = useGetUserInfo();
-  const navigate = useNavigate();
-  const { balance, income, expense } = transactionsTotals;
+  const [transactionAmount, setTransactionAmount] = useState(0);
+  const [transactionType, setTransactionType] = useState("expense");
 
-  const onSubmit = async (e) => {
+  const { balance, income, expenses } = transactionTotals;
+
+  const onSubmit = (e) => {
     e.preventDefault();
     addTransaction({
       description,
       transactionAmount,
       transactionType,
     });
+
     setDescription("");
     setTransactionAmount("");
   };
@@ -33,16 +36,15 @@ export const ExpenseTracker = () => {
       await signOut(auth);
       localStorage.clear();
       navigate("/");
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   };
-
   return (
     <section className="flex flex-col items-center justify-between gap-10 p-5 bg-slate-800 min-h-screen text-gray-50">
       <header className="flex items-center justify-between w-full px-5 py-3">
-        {userPhoto && (
-          <img src={userPhoto} alt={userName} className="rounded-full h-16" />
+        {profilePhoto && (
+          <img src={profilePhoto} alt={name} className="rounded-full h-16" />
         )}
         <button className="px-4 py-2 bg-slate-700" onClick={signUserOut}>
           Cerrar sesión
@@ -66,7 +68,7 @@ export const ExpenseTracker = () => {
           <div className="summary flex justify-center items-center gap-20">
             <div className="expenses">
               <h4 className="text-2xl">Gastos</h4>
-              <p className="text-3xl text-orange-500">${expense}</p>
+              <p className="text-3xl text-orange-500">${expenses}</p>
             </div>
             <div className="incomes">
               <h4 className="text-2xl">Ingresos</h4>

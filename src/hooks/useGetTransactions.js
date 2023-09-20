@@ -11,27 +11,28 @@ import { useGetUserInfo } from "./useGetUserInfo";
 
 export const useGetTransactions = () => {
   const [transactions, setTransactions] = useState([]);
-  const [transactionsTotals, setTransactionsTotals] = useState({
-    balance: 0,
-    income: 0,
-    expense: 0,
+  const [transactionTotals, setTransactionTotals] = useState({
+    balance: 0.0,
+    income: 0.0,
+    expenses: 0.0,
   });
-  const transactionCollectionRef = collection(db, "transactions");
-  const { userId } = useGetUserInfo();
 
-  let unsuscribe;
+  const transactionCollectionRef = collection(db, "transactions");
+  const { userID } = useGetUserInfo();
 
   const getTransactions = async () => {
+    let unsubscribe;
     try {
-      const queryTransaction = query(
+      const queryTransactions = query(
         transactionCollectionRef,
-        where("userId", "==", userId),
+        where("userID", "==", userID),
         orderBy("createdAt")
       );
-      unsuscribe = onSnapshot(queryTransaction, (snapshot) => {
+
+      unsubscribe = onSnapshot(queryTransactions, (snapshot) => {
         let docs = [];
         let totalIncome = 0;
-        let totalExpense = 0;
+        let totalExpenses = 0;
 
         snapshot.forEach((doc) => {
           const data = doc.data();
@@ -40,29 +41,33 @@ export const useGetTransactions = () => {
           docs.push({ ...data, id });
 
           if (data.transactionType === "gasto") {
-            totalExpense += Number(data.transactionAmount);
+            totalExpenses += Number(data.transactionAmount);
           } else {
             totalIncome += Number(data.transactionAmount);
           }
+
+          console.log(totalExpenses, totalIncome);
         });
+
         setTransactions(docs);
 
-        let balance = totalIncome - totalExpense;
-        setTransactionsTotals({
-          balance: balance,
+        let balance = totalIncome - totalExpenses;
+        setTransactionTotals({
+          balance,
+          expenses: totalExpenses,
           income: totalIncome,
-          expense: totalExpense,
         });
       });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
-    return () => unsuscribe();
+
+    return () => unsubscribe();
   };
 
   useEffect(() => {
     getTransactions();
   }, []);
 
-  return { transactions, transactionsTotals };
+  return { transactions, transactionTotals };
 };
