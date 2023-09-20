@@ -4,7 +4,6 @@ import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { useGetTransactions } from "../../hooks/useGetTransactions";
 import { useGetUserInfo } from "../../hooks/useGetUserInfo";
 import { useNavigate } from "react-router-dom";
-
 import { auth } from "../../config/firebase-config";
 
 export const ExpenseTracker = () => {
@@ -14,7 +13,7 @@ export const ExpenseTracker = () => {
   const navigate = useNavigate();
 
   const [description, setDescription] = useState("");
-  const [transactionAmount, setTransactionAmount] = useState(0);
+  const [transactionAmount, setTransactionAmount] = useState("");
   const [transactionType, setTransactionType] = useState("expense");
 
   const { balance, income, expenses } = transactionTotals;
