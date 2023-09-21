@@ -14,7 +14,7 @@ export const ExpenseTracker = () => {
 
   const [description, setDescription] = useState("");
   const [transactionAmount, setTransactionAmount] = useState("");
-  const [transactionType, setTransactionType] = useState("expense");
+  const [transactionType, setTransactionType] = useState("gasto");
 
   const { balance, income, expenses } = transactionTotals;
 
@@ -83,7 +83,7 @@ export const ExpenseTracker = () => {
               <input
                 className="text-gray-50 text-xl font-semibold py-2 px-2 rounded-sm w-full bg-transparent border-b-2 border-gray-400 "
                 type="text"
-                placeholder="descripción"
+                placeholder="Descripción"
                 value={description}
                 required
                 onChange={(e) => setDescription(e.target.value)}
@@ -91,7 +91,7 @@ export const ExpenseTracker = () => {
               <input
                 className="text-gray-50 text-xl font-semibold py-2 px-2 rounded-sm w-full bg-transparent border-b-2 border-gray-400 "
                 type="number"
-                placeholder="monto"
+                placeholder="Monto"
                 value={transactionAmount}
                 required
                 onChange={(e) => setTransactionAmount(e.target.value)}

@@ -45,8 +45,6 @@ export const useGetTransactions = () => {
           } else {
             totalIncome += Number(data.transactionAmount);
           }
-
-          console.log(totalExpenses, totalIncome);
         });
 
         setTransactions(docs);
