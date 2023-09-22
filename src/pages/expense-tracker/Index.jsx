@@ -6,9 +6,11 @@ import { useGetUserInfo } from "../../hooks/useGetUserInfo";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebase-config";
 
+import Paginacion from "../../components/Paginacion";
 export const ExpenseTracker = () => {
   const { addTransaction } = useAddTransaction();
   const { transactions, transactionTotals } = useGetTransactions();
+
   const { name, profilePhoto } = useGetUserInfo();
   const navigate = useNavigate();
 
@@ -49,6 +51,7 @@ export const ExpenseTracker = () => {
           Cerrar sesión
         </button>
       </header>
+
       <div className="expense-tracker flex justify-center items-center flex-col w-full h-auto">
         <div className="container flex flex-col justify-center items-center gap-10">
           <h1 className="text-4xl font-bold">Gestor de gastos</h1>
@@ -136,36 +139,16 @@ export const ExpenseTracker = () => {
           </form>
         </div>
       </div>
-      {/* ------------ */}
-      <div className="transactions flex flex-col justify-between items-center gap-6 w-full">
-        <h3 className="text-4xl font-bold">Movimientos</h3>
-        <ul className="flex flex-col items-start gap-6 justify-center w-full">
-          {transactions.map((transaction) => {
-            const { id, description, transactionAmount, transactionType } =
-              transaction;
-            return (
-              <li
-                key={id}
-                className="flex items-center justify-between gap-1 border-2 border-gray-700 rounded-md w-full p-5"
-              >
-                <h4 className="text-2xl font-medium max-w-[100px]">
-                  {description}
-                </h4>
-                <p className="text-2xl flex gap-3 flex-col items-end">
-                  ${transactionAmount}
-                  <label
-                    style={{
-                      color: transactionType === "gasto" ? "red" : "green",
-                    }}
-                  >
-                    {transactionType}
-                  </label>
-                </p>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+
+      {/* Transacciones */}
+      {transactions.length === 0 ? (
+        <h3 className="text-4xl font-bold mb-24">Sin Movimientos</h3>
+      ) : (
+        <div className="transactions flex flex-col justify-between items-center gap-6 w-full">
+          <h3 className="text-4xl font-bold">Movimientos</h3>
+          <Paginacion itemsPerPage={5} />
+        </div>
+      )}
     </section>
   );
 };

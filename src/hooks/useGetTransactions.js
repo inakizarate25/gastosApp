@@ -26,7 +26,7 @@ export const useGetTransactions = () => {
       const queryTransactions = query(
         transactionCollectionRef,
         where("userID", "==", userID),
-        orderBy("createdAt")
+        orderBy("createdAt", "desc")
       );
 
       unsubscribe = onSnapshot(queryTransactions, (snapshot) => {
