@@ -3,6 +3,7 @@ import { useGetTransactions } from "../hooks/useGetTransactions";
 import { useDeleteTransaction } from "../hooks/useDeleteTransaction";
 import trash from "../assets/trash-alt.svg";
 import arrow from "../assets/step-forward.svg";
+import { Toaster } from "react-hot-toast";
 
 const Paginacion = ({ itemsPerPage }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -81,6 +82,7 @@ const Paginacion = ({ itemsPerPage }) => {
           </button>
         </div>
       )}
+      <Toaster />
     </div>
   );
 };
