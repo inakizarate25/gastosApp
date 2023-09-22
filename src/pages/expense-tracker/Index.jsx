@@ -5,8 +5,11 @@ import { useGetTransactions } from "../../hooks/useGetTransactions";
 import { useGetUserInfo } from "../../hooks/useGetUserInfo";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebase-config";
-
+import toast, { Toaster } from "react-hot-toast";
 import Paginacion from "../../components/Paginacion";
+
+const notify = () => toast.success("Agregado Correctamente");
+
 export const ExpenseTracker = () => {
   const { addTransaction } = useAddTransaction();
   const { transactions, transactionTotals } = useGetTransactions();
@@ -30,6 +33,7 @@ export const ExpenseTracker = () => {
 
     setDescription("");
     setTransactionAmount("");
+    notify();
   };
 
   const signUserOut = async () => {
@@ -149,6 +153,7 @@ export const ExpenseTracker = () => {
           <Paginacion itemsPerPage={5} />
         </div>
       )}
+      <Toaster />
     </section>
   );
 };
