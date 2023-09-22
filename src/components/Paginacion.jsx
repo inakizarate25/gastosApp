@@ -20,7 +20,14 @@ const Paginacion = ({ itemsPerPage }) => {
 
   return (
     <div className="w-full flex flex-col items-center justify-center gap-12">
-      <span className="text-xl font-bold self-start">Pagina {currentPage}</span>
+      {transactions.length <= 5 ? (
+        ""
+      ) : (
+        <span className="text-xl font-bold self-start">
+          Pagina {currentPage}
+        </span>
+      )}
+
       <ul className="flex flex-col items-start gap-6 justify-center w-full">
         {currentItems.map((transaction) => {
           const { id, description, transactionAmount, transactionType } =
@@ -52,24 +59,28 @@ const Paginacion = ({ itemsPerPage }) => {
           );
         })}
       </ul>
-      {/* botones */}
-      <div className="botones w-[200px] flex items-center justify-center gap-10">
-        <button
-          className="bg-slate-700 h-10 w-10 rounded-md cursor-pointer transform rotate-180"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          <img src={arrow} alt="prev" />
-        </button>
-        <p>{currentPage}</p>
-        <button
-          className="bg-slate-700 h-10 w-10 rounded-md cursor-pointer"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          <img src={arrow} alt="next" />
-        </button>
-      </div>
+
+      {transactions.length <= 5 ? (
+        ""
+      ) : (
+        <div className="botones w-[200px] flex items-center justify-center gap-10">
+          <button
+            className="bg-slate-700 h-10 w-10 rounded-md cursor-pointer transform rotate-180"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            <img src={arrow} alt="prev" />
+          </button>
+          <p>{currentPage}</p>
+          <button
+            className="bg-slate-700 h-10 w-10 rounded-md cursor-pointer"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            <img src={arrow} alt="next" />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
